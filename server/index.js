@@ -79,7 +79,7 @@ app.post('/convert', async (req, res) => {
     try {
         const { code, language } = req.body;
 
-        let response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+        let response = await fetch(`https://api.openai.com/v1/engines/text-davinci-003/completions`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${apiKey}`,
@@ -113,7 +113,7 @@ app.post('/debug', async (req, res) => {
     try {
         const { code } = req.body;
 
-        let response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+        let response = await fetch(`https://api.openai.com/v1/engines/text-davinci-003/completions`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -146,7 +146,7 @@ app.post('/quality', async (req, res) => {
     try {
         const { code } = req.body;
 
-        let response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+        let response = await fetch(`https://api.openai.com/v1/engines/text-davinci-003/completions`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
