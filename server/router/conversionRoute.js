@@ -3,6 +3,9 @@ const ConversionRouter = express.Router();
 require('dotenv').config();
 const apiKey = process.env.OPENAI_API_KEY;
 
+// const apiKey = "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"
+
+
 ConversionRouter.post('/', async (req, res) => {
     try {
         const { code, language } = req.body;
@@ -12,8 +15,8 @@ ConversionRouter.post('/', async (req, res) => {
         const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
 
         const headers = {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
         };
 
         const requestData = {
@@ -21,11 +24,26 @@ ConversionRouter.post('/', async (req, res) => {
             max_tokens: 100,
         };
 
-        const response = await axios.post(apiUrl, requestData, { headers });
+        axios.post(apiUrl, requestData, { headers })
+            .then(response => {
+                // Handle the API response here
+                console.log(response.data);
 
-        const convertedCode = response.data.choices[0].text;
+                const convertedCode = response.data.choices[0].text;
 
-        res.send({ convertedCode });
+                res.send({ convertedCode });
+
+            })
+            .catch(error => {
+                // Handle errors here
+                console.error("error");
+            });
+
+        // const response = await axios.post(apiUrl, requestData, { headers });
+
+        // const convertedCode = response.data.choices[0].text;
+
+        // res.send({ convertedCode });
     } catch (error) {
         console.error('Error converting code:', error);
         res.status(500).json({ error: 'Internal server error' });
