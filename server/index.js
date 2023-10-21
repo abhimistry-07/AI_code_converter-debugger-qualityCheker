@@ -6,7 +6,6 @@ const { ConversionRouter } = require('./router/conversionRoute');
 require('dotenv').config();
 const PORT = process.env.PORT || 8080;
 const apiKey = process.env.OPENAI_API_KEY;
-const rateLimit = require("express-rate-limit");
 
 // const OpenAI = require('openai');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
@@ -181,8 +180,7 @@ app.get('/', (req, res) => {
 
 // ------------------------
 
-const maxRetryAttempts = 3;
-const retryDelayMs = 1000;
+
 
 
 // app.post('/convert', async (req, res) => {
@@ -240,13 +238,11 @@ const retryDelayMs = 1000;
 // });
 
 
-const apiLimiter = rateLimit({
-    windowMs: 60 * 1000, // 1 minute
-    max: 3, // Max 3 requests per minute
-    message: "Rate limit exceeded. Please try again later.",
-});
+
 
 // Apply the rate limiter to your /convert route
+
+
 app.post("/convert", async (req, res) => {
     try {
         const { code, language } = req.body;
