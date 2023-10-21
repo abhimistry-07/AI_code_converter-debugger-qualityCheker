@@ -247,59 +247,11 @@ const apiLimiter = rateLimit({
 });
 
 // Apply the rate limiter to your /convert route
-// app.post("/convert", apiLimiter, async (req, res) => {
-//     try {
-//         const { code, language } = req.body;
-
-//         const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
-
-//         //             'https://api.openai.com/v1/engines/text-davinci-003/completions',
-
-
-//         const headers = {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${apiKey}`,
-//         };
-
-//         const requestData = {
-//             prompt: `Convert the following ${language} code:\n\n${code}\n\nTo:\n\n`,
-//             max_tokens: 1000,
-
-//             // prompt: `Translate the following code ${code} into ${language}`,
-//             // max_tokens: 400,
-//         };
-
-//         let attempts = 0;
-
-//         async function doConversion() {
-//             try {
-//                 const response = await axios.post(apiUrl, requestData, { headers });
-//                 console.log(response.data, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-//                 const convertedCode = response.data.choices[0].text;
-//                 res.status(200).send({ convertedCode });
-//             } catch (error) {
-//                 if (error.response && error.response.status === 429 && attempts < maxRetryAttempts) {
-//                     setTimeout(doConversion, retryDelayMs);
-//                     attempts++;
-//                 } else {
-//                     console.error('Error converting code:', error);
-//                     res.status(400).json({ error: 'Internal server error' });
-//                 }
-//             }
-//         }
-
-//         doConversion();
-//     } catch (error) {
-//         console.error('Error converting code:', error);
-//         res.status(400).json({ error: 'Internal server error' });
-//     }
-// });
-
-app.post("/convert", apiLimiter, async (req, res) => {
-    const { code, language } = req.body;
-
+app.post("/convert", async (req, res) => {
     try {
-        const apiUrl = 'https://api.openai.com/v1/engines/gpt-3.5-turbo/completions'; // Use the correct engine name
+        const { code, language } = req.body;
+
+        const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
 
         const headers = {
             'Content-Type': 'application/json',
@@ -307,32 +259,18 @@ app.post("/convert", apiLimiter, async (req, res) => {
         };
 
         const requestData = {
-            prompt: `Convert the following ${language} code:\n\n${code}\n\nTo:\n\n`,
+            prompt: `Translate the following code ${code} into ${language}`,
+            // `Convert the following ${language} code:\n\n${code}\n\nTo:\n\n`,
             max_tokens: 1000,
         };
 
-        const maxRetryAttempts = 3; // Define your maximum retry attempts
-        const retryDelayMs = 1000; // Define your retry delay in milliseconds
         let attempts = 0;
 
-        while (true) {
-            try {
-                const response = await axios.post(apiUrl, requestData, { headers });
-                const convertedCode = response.data.choices[0].text;
-                res.status(200).send({ convertedCode });
-                return; // Exit the function if successful
-            } catch (error) {
-                if (error.response && error.response.status === 429 && attempts < maxRetryAttempts) {
-                    // If rate-limited, wait and retry
-                    await new Promise(resolve => setTimeout(resolve, retryDelayMs));
-                    attempts++;
-                } else {
-                    console.error('Error converting code:', error);
-                    res.status(400).json({ error: 'Internal server error' });
-                    return; // Exit the function on other errors
-                }
-            }
-        }
+        const response = await axios.post(apiUrl, requestData, { headers });
+        // console.log(response.data, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        const convertedCode = response.data.choices[0].text;
+        res.status(200).send({ convertedCode });
+
     } catch (error) {
         console.error('Error converting code:', error);
         res.status(400).json({ error: 'Internal server error' });
