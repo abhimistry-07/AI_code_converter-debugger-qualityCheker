@@ -3,9 +3,6 @@ const ConversionRouter = express.Router();
 require('dotenv').config();
 const apiKey = process.env.OPENAI_API_KEY;
 
-// const apiKey = "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"
-
-
 ConversionRouter.post('/', async (req, res) => {
     try {
         const { code, language } = req.body;
