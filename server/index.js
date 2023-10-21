@@ -10,7 +10,6 @@ const apiKey = process.env.OPENAI_API_KEY;
 // const OpenAI = require('openai');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-
 app.use(express.json());
 app.use(cors());
 
@@ -180,68 +179,7 @@ app.get('/', (req, res) => {
 
 // ------------------------
 
-
-
-
-// app.post('/convert', async (req, res) => {
-//     try {
-//         const { code, language } = req.body;
-
-//         const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
-
-//         //             'https://api.openai.com/v1/engines/text-davinci-003/completions',
-
-
-//         const headers = {
-//             'Content-Type': 'application/json',
-//             'Authorization': `Bearer ${apiKey}`,
-//         };
-
-//         const requestData = {
-//             prompt: `Convert the following ${language} code:\n\n${code}\n\nTo:\n\n`,
-//             max_tokens: 1000,
-
-//             // prompt: `Translate the following code ${code} into ${language}`,
-//             // max_tokens: 400,
-//         };
-
-//         let attempts = 0;
-
-//         async function doConversion() {
-//             try {
-//                 const response = await axios.post(apiUrl, requestData, { headers });
-//                 console.log(response.data, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-//                 const convertedCode = response.data.choices[0].text;
-//                 res.status(200).send({ convertedCode });
-//             } catch (error) {
-//                 if (error.response && error.response.status === 429 && attempts < maxRetryAttempts) {
-//                     setTimeout(doConversion, retryDelayMs);
-//                     attempts++;
-//                 } else {
-//                     console.error('Error converting code:', error);
-//                     res.status(400).json({ error: 'Internal server error' });
-//                 }
-//             }
-//         }
-
-//         doConversion();
-
-//         // const response = await axios.post(apiUrl, requestData, { headers });
-
-//         // const convertedCode = response.data.choices[0].text;
-
-//         // res.status(200).send({ convertedCode });
-//     } catch (error) {
-//         console.error('Error converting code:', error);
-//         res.status(400).json({ error: 'Internal server error' });
-//     }
-// });
-
-
-
-
 // Apply the rate limiter to your /convert route
-
 
 app.post("/convert", async (req, res) => {
     try {
