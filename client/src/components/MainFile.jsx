@@ -6,28 +6,11 @@ function MainFile() {
   const [language, setLanguage] = useState("");
   const [error, setError] = useState("");
 
-  // const handleConvert = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:8080/convert", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ code, language }),
-  //     });
-
-  //     const data = await response.json();
-  //     setConvertedCode(data.convertedCode);
-  //   } catch (error) {
-  //     console.error("Error converting code:", error);
-  //   }
-  // };
-
   const handleConvert = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/convert",
-        // "https://code-converter-9dtv.onrender.com/convert",
+        // "http://localhost:8080/convert",
+        "https://code-converter-9dtv.onrender.com/convert",
         {
           method: "POST",
           headers: {
