@@ -79,6 +79,7 @@ function MainFile() {
   const handleClean = () => {
     setCode("");
     setConvertedCode("");
+    setLanguage("");
   };
 
   return (
