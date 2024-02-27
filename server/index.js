@@ -53,7 +53,7 @@ app.post('/debug', async (req, res) => {
 
         // console.log(code);
 
-        const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
+        const apiUrl = 'https://api.openai.com/v1/engines/gpt-3.5-turbo-instruct/completions';
 
         const headers = {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ app.post('/quality', async (req, res) => {
 
         // console.log(code);
 
-        const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
+        const apiUrl = 'https://api.openai.com/v1/engines/gpt-3.5-turbo-instruct/completions';
 
         const headers = {
             'Content-Type': 'application/json',
